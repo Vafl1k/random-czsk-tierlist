@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Random CZ/SK Tierlist</title>
     <style>
+        /* TVŮJ KOMPLETNÍ DESIGN */
         * {
             margin: 0;
             padding: 0;
@@ -57,12 +58,6 @@
             font-weight: bold;
             transition: all 0.3s;
             font-size: 1.2em;
-            box-shadow: 0 4px 15px rgba(42, 125, 217, 0.3);
-        }
-
-        .dark-mode-toggle:hover {
-            background: #3a8de9;
-            transform: translateY(-2px);
         }
 
         .admin-panel {
@@ -75,7 +70,6 @@
             gap: 10px;
             flex-wrap: wrap;
             align-items: center;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
         }
 
         body.admin-mode .admin-panel {
@@ -90,7 +84,6 @@
             color: #fff;
             font-size: 1em;
             flex: 1;
-            min-width: 200px;
         }
 
         .btn {
@@ -100,9 +93,6 @@
             cursor: pointer;
             font-weight: bold;
             transition: all 0.3s;
-            font-size: 1em;
-            text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
         .btn-primary {
@@ -110,19 +100,9 @@
             color: #fff;
         }
 
-        .btn-primary:hover {
-            background: #3a8de9;
-            box-shadow: 0 0 15px rgba(42, 125, 217, 0.5);
-        }
-
         .btn-save-all {
             background: #28a745;
             color: #fff;
-        }
-
-        .btn-save-all:hover {
-            background: #218838;
-            box-shadow: 0 0 15px rgba(40, 167, 69, 0.5);
         }
 
         .kit-tabs {
@@ -144,16 +124,10 @@
             font-weight: bold;
         }
 
-        .kit-tab:hover {
-            border-color: #2a7dd9;
-            color: #fff;
-        }
-
         .kit-tab.active {
             background: #ffa500;
             color: #000;
             border-color: #ffa500;
-            box-shadow: 0 0 20px rgba(255, 165, 0, 0.4);
         }
 
         .tier-section {
@@ -177,13 +151,12 @@
             font-size: 1.3em;
             font-weight: bold;
             text-transform: uppercase;
-            letter-spacing: 2px;
             min-width: 150px;
             text-align: center;
         }
 
-        /* Tier Colors */
-        .tier-God .tier-title { color: #ff3333; text-shadow: 0 0 10px rgba(255, 51, 51, 0.5); }
+        /* Barvy Tierů */
+        .tier-God .tier-title { color: #ff3333; }
         .tier-Hacker .tier-title { color: #ff8800; }
         .tier-Pro .tier-title { color: #2a9eff; }
         .tier-Normal .tier-title { color: #66aaff; }
@@ -194,7 +167,7 @@
 
         .tier-players {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             gap: 20px;
         }
 
@@ -211,32 +184,10 @@
             transition: all 0.3s;
         }
 
-        .tier-player-card:hover {
-            transform: translateY(-5px);
-            border-color: #2a7dd9;
-            background: rgba(42, 125, 217, 0.1);
-        }
-
         .tier-player-avatar {
             width: 50px;
             height: 50px;
             border-radius: 5px;
-            border: 2px solid #333;
-        }
-
-        .player-info {
-            flex: 1;
-        }
-
-        .player-info-name {
-            font-weight: bold;
-            font-size: 1.1em;
-            margin-bottom: 2px;
-        }
-
-        .player-info-score {
-            font-size: 0.8em;
-            color: #888;
         }
 
         .tier-badge {
@@ -244,10 +195,10 @@
             border-radius: 8px;
             font-size: 0.8em;
             font-weight: bold;
-            text-transform: uppercase;
+            margin-left: auto;
         }
 
-        /* Badge Styles */
+        /* Badge barvy */
         .tier-God .tier-badge { background: #ff3333; color: #fff; }
         .tier-Hacker .tier-badge { background: #ff8800; color: #fff; }
         .tier-Pro .tier-badge { background: #2a9eff; color: #fff; }
@@ -256,6 +207,60 @@
         .tier-Down .tier-badge { background: #555555; color: #fff; }
         .tier-UNC-GOD .tier-badge { background: #ff3366; color: #fff; }
         .tier-UNC-Hacker .tier-badge { background: #9955ff; color: #fff; }
+
+        .search-box {
+            margin-bottom: 25px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 15px;
+            background: rgba(0,0,0,0.6);
+            border: 2px solid #333;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1.1em;
+        }
+
+        .overall-ranking {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 15px;
+            padding: 30px;
+            border: 2px solid #2a7dd9;
+        }
+
+        .ranking-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .ranking-number {
+            font-size: 1.8em;
+            font-weight: bold;
+            width: 60px;
+            color: #ffa500;
+        }
+
+        .ranking-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            margin-right: 20px;
+        }
+
+        .admin-login {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            font-size: 0.8em;
+            color: #444;
+            cursor: pointer;
+            opacity: 0.3;
+        }
 
         .delete-tier-btn {
             position: absolute;
@@ -269,98 +274,15 @@
             height: 25px;
             cursor: pointer;
             display: none;
-            align-items: center;
-            justify-content: center;
             font-weight: bold;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
-            z-index: 10;
         }
 
         body.admin-mode .delete-tier-btn {
             display: flex;
-        }
-
-        /* Overall Ranking */
-        .overall-ranking {
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 15px;
-            padding: 30px;
-            border: 2px solid #2a7dd9;
-            box-shadow: 0 0 30px rgba(42, 125, 217, 0.1);
-        }
-
-        .search-box {
-            margin-bottom: 25px;
-            position: relative;
-        }
-
-        .search-box input {
-            width: 100%;
-            padding: 15px 20px;
-            background: rgba(0,0,0,0.6);
-            border: 2px solid #333;
-            border-radius: 10px;
-            color: #fff;
-            font-size: 1.1em;
-            outline: none;
-            transition: all 0.3s;
-        }
-
-        .search-box input:focus {
-            border-color: #2a7dd9;
-            box-shadow: 0 0 15px rgba(42, 125, 217, 0.3);
-        }
-
-        .ranking-item {
-            display: flex;
             align-items: center;
-            padding: 15px 20px;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 10px;
-            margin-bottom: 10px;
-            transition: all 0.3s;
-            border-left: 4px solid transparent;
-            cursor: pointer;
+            justify-content: center;
         }
 
-        .ranking-item:hover {
-            background: rgba(255, 255, 255, 0.07);
-            border-left-color: #2a7dd9;
-            transform: translateX(5px);
-        }
-
-        .ranking-number {
-            font-size: 1.8em;
-            font-weight: bold;
-            width: 60px;
-            color: #ffa500;
-            font-style: italic;
-        }
-
-        .ranking-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 8px;
-            margin-right: 20px;
-            border: 2px solid #333;
-        }
-
-        .ranking-name {
-            font-size: 1.3em;
-            font-weight: bold;
-            flex: 1;
-        }
-
-        .ranking-points {
-            font-size: 1.1em;
-            font-weight: bold;
-            color: #2a7dd9;
-            background: rgba(42, 125, 217, 0.1);
-            padding: 8px 15px;
-            border-radius: 20px;
-        }
-
-        /* Modal */
         .modal-backdrop {
             position: fixed;
             top: 0;
@@ -368,7 +290,6 @@
             right: 0;
             bottom: 0;
             background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(5px);
             z-index: 999;
             display: none;
         }
@@ -390,65 +311,11 @@
             display: none;
             flex-direction: column;
             align-items: center;
-            min-width: 450px;
-            box-shadow: 0 0 50px rgba(0,0,0,1);
+            min-width: 400px;
         }
 
         .profile-modal.active, .edit-tier-modal.active {
             display: flex;
-        }
-
-        .profile-avatar-large {
-            width: 128px;
-            height: 128px;
-            border-radius: 10px;
-            border: 4px solid #2a7dd9;
-            margin-bottom: 20px;
-            box-shadow: 0 0 20px rgba(42, 125, 217, 0.3);
-        }
-
-        .profile-stats {
-            width: 100%;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin: 20px 0;
-        }
-
-        .stat-card {
-            background: rgba(255,255,255,0.05);
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-        }
-
-        .stat-label { font-size: 0.8em; color: #888; text-transform: uppercase; margin-bottom: 5px; }
-        .stat-value { font-size: 1.1em; font-weight: bold; }
-
-        .admin-login {
-            position: fixed;
-            bottom: 10px;
-            left: 10px;
-            font-size: 0.8em;
-            color: #444;
-            cursor: pointer;
-            opacity: 0.3;
-            transition: opacity 0.3s;
-        }
-
-        .admin-login:hover {
-            opacity: 1;
-        }
-
-        select {
-            width: 100%;
-            padding: 12px;
-            background: #1a1a1a;
-            color: #fff;
-            border: 2px solid #2a7dd9;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            outline: none;
         }
     </style>
 </head>
@@ -467,25 +334,21 @@
 
         <div class="kit-tabs" id="kitTabs"></div>
 
-        <div id="tierlistContainer"></div>
+        <div id="mainContent"></div>
     </div>
 
     <div class="modal-backdrop" id="modalBackdrop" onclick="closeModal()"></div>
     
     <div class="profile-modal" id="profileModal">
-        <img id="modalAvatar" src="" class="profile-avatar-large">
-        <h2 id="modalName" style="font-size: 2.5em; margin-bottom: 5px;"></h2>
-        <div id="modalScore" style="color: #2a7dd9; font-weight: bold; margin-bottom: 20px;"></div>
-        
-        <div class="profile-stats" id="modalStats"></div>
-        
-        <button class="btn btn-primary" style="width: 100%;" onclick="closeModal()">Zavřít profil</button>
+        <img id="modalAvatar" src="" style="width:100px; height:100px; border-radius:10px; border:3px solid #2a7dd9; margin-bottom:15px;">
+        <h2 id="modalName" style="margin-bottom:10px;"></h2>
+        <div id="modalStats" style="width:100%; margin-bottom:20px;"></div>
+        <button class="btn btn-primary" style="width:100%" onclick="closeModal()">Zavřít</button>
     </div>
 
     <div class="edit-tier-modal" id="editModal">
-        <h2 style="margin-bottom: 20px;">Upravit Tier</h2>
-        <p id="editPlayerName" style="margin-bottom: 15px; color: #888;"></p>
-        <select id="tierSelect">
+        <h2 style="margin-bottom:20px;">Změnit Tier</h2>
+        <select id="tierSelect" style="width:100%; padding:12px; background:#1a1a1a; color:#fff; border:2px solid #2a7dd9; border-radius:8px; margin-bottom:20px;">
             <option value="God">God</option>
             <option value="Hacker">Hacker</option>
             <option value="Pro">Pro</option>
@@ -496,19 +359,18 @@
             <option value="UNC Hacker">UNC Hacker</option>
             <option value="Unranked">Unranked</option>
         </select>
-        <div style="display: flex; gap: 10px; width: 100%;">
-            <button class="btn btn-primary" style="flex: 1;" onclick="saveEditModal()">Uložit</button>
-            <button class="btn" style="flex: 1; background: #333; color: #fff;" onclick="closeModal()">Zrušit</button>
+        <div style="display:flex; gap:10px; width:100%;">
+            <button class="btn btn-primary" style="flex:1" onclick="saveEditModal()">Uložit</button>
+            <button class="btn" style="flex:1; background:#333; color:#fff;" onclick="closeModal()">Zrušit</button>
         </div>
     </div>
 
     <div class="admin-login" onclick="requireAdmin()">Admin login</div>
 
     <script>
-        // --- KONFIGURACE (TVŮJ FIREBASE) ---
+        // --- KONFIGURACE FIREBASE ---
         const ADMIN_PASSWORD = "UxzPO)P8Q<F";
         const DATABASE_URL = "https://tierlist-360c8-default-rtdb.europe-west1.firebasedatabase.app/players.json";
-        const MC_HEADS_URL = "https://mc-heads.net/avatar/";
         
         let isAdmin = false;
         let currentKit = 'Overall';
@@ -523,70 +385,46 @@
             { name: 'Prasečí jízda', icon: '🐷' }
         ];
 
-        const TIER_POINTS = {
-            'God': 35, 'Hacker': 20, 'Pro': 10, 'Normal': 5,
-            'Noob': 3, 'Down': 1, 'UNC GOD': 32, 'UNC Hacker': 18, 'Unranked': 0
+        const TIER_POINTS = { 
+            'God': 35, 'Hacker': 20, 'Pro': 10, 'Normal': 5, 
+            'Noob': 3, 'Down': 1, 'UNC GOD': 32, 'UNC Hacker': 18, 'Unranked': 0 
         };
-
-        const TIER_LABELS = {
-            'God': 'God', 'Hacker': 'Hacker', 'Pro': 'Pro', 'Normal': 'Normal',
-            'Noob': 'Noob', 'Down': 'Down', 'UNC GOD': 'UNC GOD', 'UNC Hacker': 'UNC Hacker', 'Unranked': 'Unranked'
-        };
-
         const ALL_TIERS = ['God', 'Hacker', 'Pro', 'Normal', 'Noob', 'Down', 'UNC GOD', 'UNC Hacker', 'Unranked'];
 
-        // --- SYNCHRONIZACE S FIREBASE ---
+        // --- FIREBASE SYNC ---
         async function saveAllToCloud() {
             if (!requireAdmin()) return;
             const players = loadPlayers();
             const btn = document.querySelector('.btn-save-all');
-            const originalText = btn.textContent;
             btn.textContent = "⌛ Ukládám...";
-            btn.disabled = true;
-
             try {
-                // Posíláme data přímo na Firebase
                 const response = await fetch(DATABASE_URL, {
                     method: 'PUT',
                     body: JSON.stringify(players)
                 });
-
-                if (response.ok) {
-                    alert("✅ Úspěšně uloženo pro všechny!");
-                } else {
-                    alert("❌ Chyba při ukládání na Firebase.");
-                }
-            } catch (e) {
-                console.error(e);
-                alert("❌ Nepodařilo se připojit k Firebase.");
-            } finally {
-                btn.textContent = originalText;
-                btn.disabled = false;
-            }
+                if (response.ok) alert("✅ Úspěšně uloženo pro všechny!");
+            } catch (e) { alert("❌ Chyba při ukládání."); }
+            btn.textContent = "💾 Uložit pro všechny";
         }
 
         async function loadGlobalData() {
             try {
                 const response = await fetch(DATABASE_URL);
                 if (response.ok) {
-                    const serverData = await response.json();
-                    if (serverData) {
-                        savePlayers(serverData);
-                    }
+                    const data = await response.json();
+                    if (data) localStorage.setItem('tier_players', JSON.stringify(data));
                 }
-            } catch (e) {
-                console.log("Offline mode - používám lokální data.");
-            }
+            } catch (e) {}
             render();
         }
 
-        // --- ZÁKLADNÍ FUNKCE ---
+        // --- LOGIKA ---
         function loadPlayers() { return JSON.parse(localStorage.getItem('tier_players') || '[]'); }
         function savePlayers(players) { localStorage.setItem('tier_players', JSON.stringify(players)); }
 
         function requireAdmin() {
             if (isAdmin) return true;
-            const pwd = prompt("Zadej administrátorské heslo:");
+            const pwd = prompt("Admin heslo:");
             if (pwd === ADMIN_PASSWORD) {
                 isAdmin = true;
                 document.body.classList.add('admin-mode');
@@ -596,29 +434,13 @@
             return false;
         }
 
-        function toggleDarkMode() {
-            document.body.classList.toggle('light-mode');
-            localStorage.setItem('tier_dark_mode', document.body.classList.contains('light-mode'));
-        }
-
-        function loadDarkMode() {
-            if (localStorage.getItem('tier_dark_mode') === 'true') document.body.classList.add('light-mode');
-        }
-
-        function getTierPoints(tier) { return TIER_POINTS[tier] || 0; }
-
-        function getPlayerTotalScore(player) {
-            let total = 0;
-            Object.values(player.kits || {}).forEach(t => total += getTierPoints(t));
-            return total;
-        }
+        function toggleDarkMode() { document.body.classList.toggle('light-mode'); }
 
         function addPlayer() {
             const input = document.getElementById('playerNameInput');
-            const name = input.value.trim();
-            if (!name) return;
+            if (!input.value.trim()) return;
             let players = loadPlayers();
-            players.push({ id: Date.now(), name: name, kits: {} });
+            players.push({ id: Date.now(), name: input.value.trim(), kits: {} });
             savePlayers(players);
             input.value = '';
             render();
@@ -631,161 +453,95 @@
             render();
         }
 
-        // --- MODAL LOGIKA ---
-        function openProfileModal(id) {
-            const player = loadPlayers().find(p => p.id === id);
-            if (!player) return;
-
-            document.getElementById('modalAvatar').src = `${MC_HEADS_URL}${player.name}/128.png`;
-            document.getElementById('modalName').textContent = player.name;
-            document.getElementById('modalScore').textContent = `CELKOVÉ SKÓRE: ${getPlayerTotalScore(player)} B`;
-
-            const statsDiv = document.getElementById('modalStats');
-            statsDiv.innerHTML = '';
-            ALL_KITS.filter(k => k.name !== 'Overall').forEach(kit => {
-                const tier = player.kits[kit.name] || 'Unranked';
-                statsDiv.innerHTML += `
-                    <div class="stat-card">
-                        <div class="stat-label">${kit.icon} ${kit.name}</div>
-                        <div class="stat-value" style="color:${getTierColor(tier)}">${tier}</div>
-                    </div>`;
-            });
-
-            document.getElementById('modalBackdrop').classList.add('active');
-            document.getElementById('profileModal').classList.add('active');
-        }
-
-        function openEditModal(id, kit) {
+        function openEditModal(id) {
             if (!requireAdmin()) return;
             editingPlayerId = id;
-            currentKit = kit;
-            const player = loadPlayers().find(p => p.id === id);
-            document.getElementById('editPlayerName').textContent = `Hráč: ${player.name} | Kit: ${kit}`;
-            document.getElementById('tierSelect').value = player.kits[kit] || 'Unranked';
-            document.getElementById('modalBackdrop').classList.add('active');
             document.getElementById('editModal').classList.add('active');
+            document.getElementById('modalBackdrop').classList.add('active');
         }
 
         function saveEditModal() {
             const newTier = document.getElementById('tierSelect').value;
             let players = loadPlayers();
             let p = players.find(x => x.id === editingPlayerId);
-            if (p) {
-                p.kits[currentKit] = newTier;
-                savePlayers(players);
-            }
+            if (p) { p.kits[currentKit] = newTier; savePlayers(players); }
             closeModal();
             render();
         }
 
-        function closeModal() {
-            document.querySelectorAll('.profile-modal, .edit-tier-modal, .modal-backdrop').forEach(el => el.classList.remove('active'));
+        function openProfileModal(id) {
+            const player = loadPlayers().find(p => p.id === id);
+            if (!player) return;
+            document.getElementById('modalAvatar').src = `https://mc-heads.net/avatar/${player.name}/100.png`;
+            document.getElementById('modalName').textContent = player.name;
+            let statsHtml = '';
+            ALL_KITS.filter(k => k.name !== 'Overall').forEach(k => {
+                statsHtml += `<div style="display:flex; justify-content:space-between; padding:5px; border-bottom:1px solid #333;">
+                    <span>${k.icon} ${k.name}:</span> 
+                    <span style="font-weight:bold; color:#2a7dd9">${player.kits[k.name] || 'Unranked'}</span>
+                </div>`;
+            });
+            document.getElementById('modalStats').innerHTML = statsHtml;
+            document.getElementById('profileModal').classList.add('active');
+            document.getElementById('modalBackdrop').classList.add('active');
         }
 
-        function getTierColor(tier) {
-            if (tier === 'God') return '#ff3333';
-            if (tier === 'Hacker') return '#ff8800';
-            if (tier === 'Pro') return '#2a9eff';
-            if (tier === 'Normal') return '#66aaff';
-            if (tier === 'Noob') return '#44dd44';
-            if (tier === 'UNC GOD') return '#ff3366';
-            if (tier === 'UNC Hacker') return '#9955ff';
-            return '#888';
+        function closeModal() {
+            document.querySelectorAll('.profile-modal, .edit-tier-modal, .modal-backdrop').forEach(m => m.classList.remove('active'));
         }
 
         // --- RENDERING ---
         function render() {
             const players = loadPlayers();
-            const container = document.getElementById('tierlistContainer');
-            container.innerHTML = '';
+            const content = document.getElementById('mainContent');
+            content.innerHTML = '';
 
             const tabs = document.getElementById('kitTabs');
             tabs.innerHTML = '';
             ALL_KITS.forEach(k => {
-                const tab = document.createElement('div');
-                tab.className = `kit-tab ${k.name === currentKit ? 'active' : ''}`;
-                tab.innerHTML = `${k.icon} ${k.name}`;
-                tab.onclick = () => { currentKit = k.name; render(); };
-                tabs.appendChild(tab);
+                tabs.innerHTML += `<div class="kit-tab ${k.name === currentKit ? 'active' : ''}" onclick="currentKit='${k.name}'; render();">${k.icon} ${k.name}</div>`;
             });
 
             if (currentKit === 'Overall') {
-                renderOverallRanking(players, container);
+                const sorted = [...players].sort((a, b) => {
+                    let ptsA = 0; Object.values(a.kits).forEach(v => ptsA += TIER_POINTS[v] || 0);
+                    let ptsB = 0; Object.values(b.kits).forEach(v => ptsB += TIER_POINTS[v] || 0);
+                    return ptsB - ptsA;
+                });
+                let html = `<div class="search-box"><input type="text" placeholder="Hledej hráče..." onkeyup="searchQuery=this.value.toLowerCase(); render();" value="${searchQuery}"></div>`;
+                html += `<div class="overall-ranking">`;
+                sorted.filter(p => p.name.toLowerCase().includes(searchQuery)).forEach((p, i) => {
+                    let pts = 0; Object.values(p.kits).forEach(v => pts += TIER_POINTS[v] || 0);
+                    html += `<div class="ranking-item" onclick="openProfileModal(${p.id})">
+                        <div class="ranking-number">#${i+1}</div>
+                        <img src="https://mc-heads.net/avatar/${p.name}" class="ranking-avatar">
+                        <div style="flex:1; font-weight:bold; font-size:1.2em;">${p.name}</div>
+                        <div style="font-weight:bold; color:#2a7dd9; background:rgba(42,125,217,0.1); padding:5px 15px; border-radius:20px;">${pts} bodů</div>
+                    </div>`;
+                });
+                html += `</div>`;
+                content.innerHTML = html;
             } else {
-                renderTierlist(players, container);
+                ALL_TIERS.forEach(tier => {
+                    const tierPlayers = players.filter(p => (p.kits[currentKit] || 'Unranked') === tier);
+                    if (tierPlayers.length === 0) return;
+                    let tierHtml = `<div class="tier-section tier-${tier.replace(/\s+/g, '-')}">
+                        <div class="tier-header"><div class="tier-line"></div><div class="tier-title">${tier}</div><div class="tier-line"></div></div>
+                        <div class="tier-players">`;
+                    tierPlayers.forEach(p => {
+                        tierHtml += `<div class="tier-player-card" onclick="openProfileModal(${p.id})">
+                            <button class="delete-tier-btn" onclick="deletePlayer(${p.id}); event.stopPropagation();">×</button>
+                            <img src="https://mc-heads.net/avatar/${p.name}" class="tier-player-avatar">
+                            <strong>${p.name}</strong>
+                            <div class="tier-badge" onclick="event.stopPropagation(); openEditModal(${p.id})">${tier}</div>
+                        </div>`;
+                    });
+                    tierHtml += `</div></div>`;
+                    content.innerHTML += tierHtml;
+                });
             }
         }
 
-        function renderOverallRanking(players, container) {
-            const sortedPlayers = [...players].sort((a, b) => getPlayerTotalScore(b) - getPlayerTotalScore(a));
-            
-            let html = `
-                <div class="overall-ranking">
-                    <div class="search-box">
-                        <input type="text" placeholder="Hledej hráče..." onkeyup="searchQuery = this.value.toLowerCase(); render();" value="${searchQuery}">
-                    </div>
-            `;
-
-            sortedPlayers.filter(p => p.name.toLowerCase().includes(searchQuery)).forEach((p, i) => {
-                html += `
-                    <div class="ranking-item" onclick="openProfileModal(${p.id})">
-                        <div class="ranking-number">#${i + 1}</div>
-                        <img src="${MC_HEADS_URL}${p.name}/64.png" class="ranking-avatar">
-                        <div class="ranking-name">${p.name}</div>
-                        <div class="ranking-points">${getPlayerTotalScore(p)} bodů</div>
-                    </div>
-                `;
-            });
-
-            html += `</div>`;
-            container.innerHTML = html;
-        }
-
-        function renderTierlist(players, container) {
-            ALL_TIERS.forEach(tier => {
-                const tierPlayers = players.filter(p => (p.kits[currentKit] || 'Unranked') === tier);
-                if (tierPlayers.length === 0 && tier === 'Unranked') return;
-
-                const section = document.createElement('div');
-                section.className = `tier-section tier-${tier.replace(/\s+/g, '-')}`;
-                
-                section.innerHTML = `
-                    <div class="tier-header">
-                        <div class="tier-line"></div>
-                        <div class="tier-title">${tier}</div>
-                        <div class="tier-line"></div>
-                    </div>
-                `;
-
-                const playersDiv = document.createElement('div');
-                playersDiv.className = 'tier-players';
-
-                tierPlayers.forEach(player => {
-                    const playerCard = document.createElement('div');
-                    playerCard.className = 'tier-player-card';
-                    playerCard.innerHTML = `
-                        <button class="delete-tier-btn" onclick="deletePlayer(${player.id}); event.stopPropagation();">×</button>
-                        <img src="${MC_HEADS_URL}${player.name}/64.png" class="tier-player-avatar">
-                        <div class="player-info">
-                            <div class="player-info-name">${player.name}</div>
-                            <div class="player-info-score">Skóre: ${getTierPoints(tier)}</div>
-                        </div>
-                        <div class="tier-badge" onclick="openEditModal(${player.id}, '${currentKit}')">${tier}</div>
-                    `;
-                    playerCard.onclick = (e) => {
-                        if (e.target.classList.contains('delete-tier-btn') || e.target.classList.contains('tier-badge')) return;
-                        openProfileModal(player.id);
-                    };
-                    playersDiv.appendChild(playerCard);
-                });
-
-                section.appendChild(playersDiv);
-                container.appendChild(section);
-            });
-        }
-
-        // Start
-        loadDarkMode();
         loadGlobalData();
     </script>
 </body>
