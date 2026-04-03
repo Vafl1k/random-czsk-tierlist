@@ -1486,25 +1486,36 @@
             }
         }
 
-        async function saveToCloud() {
-            if (!requireAdmin()) return;
-            
-            const players = loadPlayers();
-            const btn = document.querySelector('button[onclick="saveToCloud()"]');
-            btn.textContent = "⏳ Ukládám...";
-            btn.disabled = true;
+async function saveToCloud() {
+    if (!requireAdmin()) return;
+    
+    const players = loadPlayers();
+    const btn = document.querySelector('button[onclick="saveToCloud()"]');
+    btn.textContent = "⏳ Ukládám...";
+    btn.disabled = true;
 
-            try {
-                await db.ref('players').set(players);
-                alert("✅ Úspěšně uloženo! Nyní to uvidí všichni.");
-            } catch (e) {
-                console.error(e);
-                alert("❌ Chyba při ukládání: " + e.message);
-            } finally {
-                btn.textContent = "💾 Uložit pro všechny";
-                btn.disabled = false;
-            }
+    try {
+        const firebaseUrl = 'https://tierlist-360c8-default-rtdb.europe-west1.firebasedatabase.app/players.json';
+        
+        const response = await fetch(firebaseUrl, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(players)
+        });
+
+        if (response.ok) {
+            alert("✅ Úspěšně uloženo! Nyní to uvidí všichni.");
+        } else {
+            alert("❌ Chyba: " + response.statusText);
         }
+    } catch (e) {
+        console.error(e);
+        alert("❌ Nepodařilo se připojit k Firebase.");
+    } finally {
+        btn.textContent = "💾 Uložit pro všechny";
+        btn.disabled = false;
+    }
+}
 
         async function loadGlobalData() {
             try {
