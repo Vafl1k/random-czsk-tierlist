@@ -1058,18 +1058,7 @@
 
     <div class="admin-login" onclick="requireAdmin()">Admin login</div>
 
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js"></script>
-
     <script>
-        // FIREBASE CONFIG
-        const firebaseConfig = {
-            databaseURL: "https://tierlist-360c8-default-rtdb.europe-west1.firebasedatabase.app"
-        };
-
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
-
         // ADMIN SYSTÉM
         const ADMIN_PASSWORD = "UxzPO)P8Q<F";
         let isAdmin = false;
@@ -1162,17 +1151,14 @@
 
         function loadPlayers() {
             try {
-                const data = JSON.parse(localStorage.getItem('tier_players') || '[]');
-                return Array.isArray(data) ? data : [];
+                return JSON.parse(localStorage.getItem('tier_players') || '[]');
             } catch (e) {
                 return [];
             }
         }
 
         function savePlayers(players) {
-            if (Array.isArray(players)) {
-                localStorage.setItem('tier_players', JSON.stringify(players));
-            }
+            localStorage.setItem('tier_players', JSON.stringify(players));
         }
 
         function getTierPoints(tier) {
@@ -1486,7 +1472,7 @@
             }
         }
 
-async function saveToCloud() {
+ async function saveToCloud() {
     if (!requireAdmin()) return;
     
     const players = loadPlayers();
@@ -1519,18 +1505,13 @@ async function saveToCloud() {
 
         async function loadGlobalData() {
             try {
-                const snapshot = await db.ref('players').get();
-                if (snapshot.exists()) {
-                    const serverData = snapshot.val();
-                    if (Array.isArray(serverData)) {
-                        savePlayers(serverData);
-                    } else if (serverData && typeof serverData === 'object') {
-                        const playersArray = Object.values(serverData);
-                        savePlayers(playersArray);
-                    }
+                const response = await fetch('data.json');
+                if (response.ok) {
+                    const serverData = await response.json();
+                    savePlayers(serverData);
                 }
             } catch (e) {
-                console.log("Pracuji s lokálními daty (Firebase není dostupné).");
+                console.log("Pracuji s lokálními daty (server nedostupný nebo data.json ještě neexistuje).");
             }
             render();
         }
