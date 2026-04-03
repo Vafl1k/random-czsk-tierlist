@@ -999,6 +999,7 @@
                 placeholder="Jméno hráče (minecraft nick)"
             >
             <button class="btn btn-primary" onclick="addPlayer()">Přidat hráče</button>
+            <button class="btn" style="background-color: #28a745; color: white;" onclick="saveToCloud()">💾 Uložit pro všechny</button>
         </div>
 
         <div class="kit-tabs" id="kitTabs"></div>
@@ -1055,7 +1056,6 @@
         <button class="btn btn-danger" onclick="closeModal()">Zrušit</button>
     </div>
 
-    <!-- tajný admin login dole vlevo -->
     <div class="admin-login" onclick="requireAdmin()">Admin login</div>
 
     <script>
@@ -1472,8 +1472,55 @@
             }
         }
 
+        async function saveToCloud() {
+            if (!requireAdmin()) return;
+            
+            const players = loadPlayers();
+            const btn = document.querySelector('button[onclick="saveToCloud()"]');
+            btn.textContent = "⏳ Ukládám...";
+            btn.disabled = true;
+
+            try {
+                const response = await fetch('save.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        password: ADMIN_PASSWORD, 
+                        data: players 
+                    })
+                });
+
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert("✅ Úspěšně uloženo! Nyní to uvidí všichni.");
+                } else {
+                    alert("❌ Chyba: " + result.message);
+                }
+            } catch (e) {
+                console.error(e);
+                alert("❌ Nepodařilo se připojit k serveru.");
+            } finally {
+                btn.textContent = "💾 Uložit pro všechny";
+                btn.disabled = false;
+            }
+        }
+
+        async function loadGlobalData() {
+            try {
+                const response = await fetch('data.json');
+                if (response.ok) {
+                    const serverData = await response.json();
+                    savePlayers(serverData);
+                }
+            } catch (e) {
+                console.log("Pracuji s lokálními daty (server nedostupný nebo data.json ještě neexistuje).");
+            }
+            render();
+        }
+
         loadDarkMode();
-        render();
+        loadGlobalData();
     </script>
 </body>
 </html>
