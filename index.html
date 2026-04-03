@@ -1503,18 +1503,21 @@
     }
 }
 
-        async function loadGlobalData() {
-            try {
-                const response = await fetch('data.json');
-                if (response.ok) {
-                    const serverData = await response.json();
-                    savePlayers(serverData);
-                }
-            } catch (e) {
-                console.log("Pracuji s lokálními daty (server nedostupný nebo data.json ještě neexistuje).");
+async function loadGlobalData() {
+    try {
+        const firebaseUrl = 'https://tierlist-360c8-default-rtdb.europe-west1.firebasedatabase.app/players.json';
+        const response = await fetch(firebaseUrl);
+        if (response.ok) {
+            const serverData = await response.json();
+            if (serverData) {
+                savePlayers(serverData);
             }
-            render();
         }
+    } catch (e) {
+        console.log("Pracuji s lokálními daty.");
+    }
+    render();
+}
 
         loadDarkMode();
         loadGlobalData();
