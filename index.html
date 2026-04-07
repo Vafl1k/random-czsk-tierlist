@@ -482,6 +482,71 @@
             color: rgba(0, 0, 0, 0.4);
         }
 
+        .search-box {
+            position: relative;
+        }
+
+        .search-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(10, 10, 30, 0.95);
+            border: 2px solid #2a7dd9;
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 100;
+        }
+
+        body.light-mode .search-dropdown {
+            background: rgba(255, 255, 255, 0.95);
+            border-color: #333;
+        }
+
+        .search-dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .search-dropdown-item:hover {
+            background: rgba(42, 125, 217, 0.3);
+        }
+
+        body.light-mode .search-dropdown-item:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .search-dropdown-item img {
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+        }
+
+        .search-dropdown-item .dropdown-name {
+            font-weight: bold;
+            font-size: 0.95em;
+        }
+
+        .search-dropdown-item .dropdown-badges {
+            margin-left: auto;
+            display: flex;
+            gap: 4px;
+        }
+
+        .search-dropdown-item .dropdown-tier-badge {
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.7em;
+            font-weight: bold;
+            color: #fff;
+        }
+
         .ranking-item {
             display: flex;
             align-items: center;
@@ -1358,9 +1423,7 @@
                 </div>
             `;
 
-            const filteredPlayers = searchQuery 
-                ? sortedPlayers.filter(p => p.name.toLowerCase().includes(searchQuery))
-                : sortedPlayers;
+            const filteredPlayers = sortedPlayers;
 
             if (filteredPlayers.length === 0) {
                 rankingDiv.innerHTML += '<div class="empty-message">Žádní hráči. Přidej si někoho!</div>';
@@ -1422,8 +1485,64 @@
 
         function handleSearch(query) {
             searchQuery = query.toLowerCase();
-            renderOverallRanking();
+            const dropdown = document.getElementById('searchDropdown');
+            
+            if (!query.trim()) {
+                if (dropdown) dropdown.remove();
+                return;
+            }
+
+            const sortedPlayers = getSortedPlayersByPoints();
+            const filtered = sortedPlayers.filter(p => p.name.toLowerCase().includes(searchQuery));
+
+            if (dropdown) dropdown.remove();
+
+            if (filtered.length === 0) return;
+
+            const dropdownEl = document.createElement('div');
+            dropdownEl.className = 'search-dropdown';
+            dropdownEl.id = 'searchDropdown';
+
+            filtered.slice(0, 10).forEach(player => {
+                let badgesHTML = '';
+                ALL_KITS.forEach(kit => {
+                    if (kit.name !== 'Overall') {
+                        const tier = player.kits[kit.name] || 'Unranked';
+                        if (tier !== 'Unranked') {
+                            const tierColor = TIER_COLORS[tier];
+                            const tierLabel = TIER_LABELS[tier];
+                            badgesHTML += `<span class="dropdown-tier-badge" style="background:${tierColor}">${tierLabel}</span>`;
+                        }
+                    }
+                });
+
+                const item = document.createElement('div');
+                item.className = 'search-dropdown-item';
+                item.innerHTML = `
+                    <img src="${MC_HEADS_URL}${player.name}/32.png?size=32" alt="${player.name}">
+                    <span class="dropdown-name">${player.name}</span>
+                    <div class="dropdown-badges">${badgesHTML}</div>
+                `;
+                item.onclick = () => {
+                    dropdownEl.remove();
+                    document.getElementById('searchInput').value = '';
+                    searchQuery = '';
+                    openProfileModal(player.id);
+                };
+                dropdownEl.appendChild(item);
+            });
+
+            const searchBox = document.querySelector('.search-box');
+            searchBox.appendChild(dropdownEl);
         }
+
+        document.addEventListener('click', function(e) {
+            const dropdown = document.getElementById('searchDropdown');
+            const searchBox = document.querySelector('.search-box');
+            if (dropdown && searchBox && !searchBox.contains(e.target)) {
+                dropdown.remove();
+            }
+        });
 
         function render() {
             const sortedPlayers = getSortedPlayersByPoints();
