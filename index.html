@@ -911,7 +911,7 @@
 
         body.light-mode .profile-tier-item {
             background: rgba(42, 125, 217, 0.1);
-            border: 2a7dd9;
+            border: 2px solid #2a7dd9;
         }
 
         .profile-tier-emoji {
@@ -1166,7 +1166,10 @@
             { name: 'Pickaxe', icon: '⛏️' },
             { name: 'PoorSMP', icon: '🦃' },
             { name: 'Elytri', icon: '🔱' },
-            { name: 'Door PvP', icon: '🚪' }
+            { name: 'Door PvP', icon: '🚪' },
+            { name: 'Crossbow', icon: '🏹' },
+            { name: 'Bed', icon: '🛏️' },
+            { name: 'RichSMP', icon: '💸' },
         ];
         
         const ALL_TIERS = ['God', 'Hacker', 'Elite', 'Pro', 'Skilled', 'Advanced', 'Normal', 'Beginner', 'Noob', 'Down', 'UNC GOD', 'UNC Hacker', 'UNC Elite', 'UNC Pro', 'Unranked'];
@@ -1177,7 +1180,10 @@
             'Pickaxe': '⛏️',
             'PoorSMP': '🦃',
             'Elytri': '🔱',
-            'Door PvP': '🚪'
+            'Door PvP': '🚪',
+            'Crossbow': '🏹',
+            'Bed': '🛏️',
+            'RichSMP': '💸',
         };
 
         const TIER_LABELS = {
@@ -1239,6 +1245,36 @@
         let editingKit = null;
         let searchQuery = '';
 
+        function normalizePlayersFromServer(data) {
+            if (!data) return [];
+            if (Array.isArray(data)) return [...data];
+            return Object.values(data).filter(p => p != null && typeof p === 'object');
+        }
+
+        function mergeMissingKitKeys(player) {
+            let changed = false;
+            if (!player.kits) {
+                player.kits = {};
+                changed = true;
+            }
+            ALL_KITS.forEach(kit => {
+                if (kit.name === 'Overall') return;
+                if (player.kits[kit.name] === undefined) {
+                    player.kits[kit.name] = 'Unranked';
+                    changed = true;
+                }
+            });
+            return changed;
+        }
+
+        function migrateAllPlayers(players) {
+            let any = false;
+            players.forEach(p => {
+                if (mergeMissingKitKeys(p)) any = true;
+            });
+            return any;
+        }
+
         function toggleDarkMode() {
             document.body.classList.toggle('light-mode');
             localStorage.setItem('darkMode', document.body.classList.contains('light-mode'));
@@ -1252,7 +1288,12 @@
 
         function loadPlayers() {
             try {
-                return JSON.parse(localStorage.getItem('tier_players') || '[]');
+                let players = JSON.parse(localStorage.getItem('tier_players') || '[]');
+                players = normalizePlayersFromServer(players);
+                if (migrateAllPlayers(players)) {
+                    savePlayers(players);
+                }
+                return players;
             } catch (e) {
                 return [];
             }
@@ -1665,11 +1706,24 @@ async function loadGlobalData() {
         if (response.ok) {
             const serverData = await response.json();
             if (serverData) {
-                savePlayers(serverData);
+                let players = normalizePlayersFromServer(serverData);
+                const migrated = migrateAllPlayers(players);
+                savePlayers(players);
+                if (migrated) {
+                    try {
+                        await fetch(firebaseUrl, {
+                            method: 'PUT',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(players),
+                        });
+                    } catch (err) {
+                        console.warn('Nepodařilo se zapsat doplněné kity zpět do Firebase:', err);
+                    }
+                }
             }
         }
     } catch (e) {
-        console.log("Pracuji s lokálními daty.");
+        console.log('Pracuji s lokálními daty.');
     }
     render();
 }
