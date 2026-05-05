@@ -1244,6 +1244,7 @@
         let editingPlayerId = null;
         let editingKit = null;
         let searchQuery = '';
+        let isSyncingIdentities = false;
 
         function normalizePlayersFromServer(data) {
             if (!data) return [];
@@ -1273,6 +1274,66 @@
                 if (mergeMissingKitKeys(p)) any = true;
             });
             return any;
+        }
+
+        async function fetchJsonSafe(url) {
+            try {
+                const res = await fetch(url);
+                if (!res.ok) return null;
+                return await res.json();
+            } catch (e) {
+                return null;
+            }
+        }
+
+        function normalizeUuid(uuid) {
+            if (!uuid) return null;
+            return String(uuid).replace(/-/g, '').toLowerCase();
+        }
+
+        async function resolveUuidByName(name) {
+            if (!name) return null;
+            const data = await fetchJsonSafe(`https://api.mojang.com/users/profiles/minecraft/${encodeURIComponent(name)}`);
+            return normalizeUuid(data?.id);
+        }
+
+        async function resolveNameByUuid(uuid) {
+            const cleanUuid = normalizeUuid(uuid);
+            if (!cleanUuid) return null;
+            const data = await fetchJsonSafe(`https://sessionserver.mojang.com/session/minecraft/profile/${cleanUuid}`);
+            return data?.name || null;
+        }
+
+        async function syncMinecraftIdentities(players) {
+            if (!Array.isArray(players) || players.length === 0 || isSyncingIdentities) return false;
+            isSyncingIdentities = true;
+            let changed = false;
+
+            for (const player of players) {
+                if (!player || !player.name) continue;
+                let playerChanged = false;
+
+                if (!player.uuid) {
+                    const resolvedUuid = await resolveUuidByName(player.name);
+                    if (resolvedUuid) {
+                        player.uuid = resolvedUuid;
+                        playerChanged = true;
+                    }
+                }
+
+                if (player.uuid) {
+                    const latestName = await resolveNameByUuid(player.uuid);
+                    if (latestName && latestName !== player.name) {
+                        player.name = latestName;
+                        playerChanged = true;
+                    }
+                }
+
+                if (playerChanged) changed = true;
+            }
+
+            isSyncingIdentities = false;
+            return changed;
         }
 
         function toggleDarkMode() {
@@ -1464,7 +1525,7 @@
                 </div>
             `;
 
-            const filteredPlayers = sortedPlayers;
+            const filteredPlayers = sortedPlayers.slice(0, 100);
 
             if (filteredPlayers.length === 0) {
                 rankingDiv.innerHTML += '<div class="empty-message">Žádní hráči. Přidej si někoho!</div>';
@@ -1708,8 +1769,9 @@ async function loadGlobalData() {
             if (serverData) {
                 let players = normalizePlayersFromServer(serverData);
                 const migrated = migrateAllPlayers(players);
+                const identityChanged = await syncMinecraftIdentities(players);
                 savePlayers(players);
-                if (migrated) {
+                if (migrated || identityChanged) {
                     try {
                         await fetch(firebaseUrl, {
                             method: 'PUT',
